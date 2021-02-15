@@ -1,3 +1,5 @@
+import Enemy from "./Enemy";
+
 export default class Character {
 
     private _name: string
@@ -35,10 +37,21 @@ export default class Character {
     }
 
     public summary(): void {
-        console.log(`   ||| - SUMMARY - |||
-    Hero name: ${this.name}
-    Hero gender: ${this.sex}
---------------------------`)
+
+        console.log(`
+        Hero name: ${this.name} 
+        Hero gender: ${this.sex}
+        `)
+
+    }
+
+    public attackEnemy(enemy: Enemy) {
+
+        let damage = Math.floor(Math.random() * (100 - 1) + 1);
+        let enemyHpLeft = enemy.hp - damage;
+        console.log(this.name + ' inflicts ' + damage + ' damage to your enemy! He has ' + enemyHpLeft + ' HP remaining!')
+
+        return enemyHpLeft;
     }
 
 }
