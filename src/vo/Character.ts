@@ -1,4 +1,4 @@
-class Character {
+export default class Character {
 
     private _name: string
     private _sex: string
@@ -32,6 +32,13 @@ class Character {
 
     set hp(value: number) {
         this._hp = value;
+    }
+
+    public summary(): void {
+        console.log(`   ||| - SUMMARY - |||
+    Hero name: ${this.name}
+    Hero gender: ${this.sex}
+--------------------------`)
     }
 
 }
