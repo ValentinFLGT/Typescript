@@ -57,6 +57,7 @@ import Enemy from "./vo/Enemy";
                 if (character.hp <= 0) {
                     return console.log("The opponent killed you, RIP " + response.username)
                 }
+                await prompts(fightOrRetreat);
                 console.log("You killed the opponent, you can continue your journey!");
             }
         }
