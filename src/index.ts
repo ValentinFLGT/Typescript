@@ -23,13 +23,6 @@ import Enemy from "./vo/Enemy";
         }
     ];
 
-    const response = await prompts(questions);
-
-    let character: Character = new Character(response.username, response.gender, 100);
-    character.summary();
-
-    console.log('Enemy\'s incoming!');
-
     const fightOrRetreat = [
         {
             type: 'select',
@@ -42,25 +35,37 @@ import Enemy from "./vo/Enemy";
         }
     ]
 
-    const fightChoice = await prompts(fightOrRetreat);
+    const response = await prompts(questions);
 
-    if (fightChoice.choice === true) {
+    let character: Character = new Character(response.username, response.gender, 100);
+    character.summary();
 
-        let enemy: Enemy = new Enemy();
+    console.log('Enemy\'s incoming!');
 
-        while (enemy.hp > 0) {
-            if (character.hp > 0) {
+    let enemy: Enemy = new Enemy();
+
+    async function fight() {
+        const fightChoice = await prompts(fightOrRetreat);
+
+        if (fightChoice.choice === true) {
+            if (enemy.hp > 0) {
                 enemy.hp = character.attackEnemy(enemy);
-                if (enemy.hp > 0) {
-                    character.hp = enemy.attackCharacter(character);
-                }
-                if (character.hp <= 0) {
-                    return console.log("The opponent killed you, RIP " + response.username)
-                }
-                await prompts(fightOrRetreat);
+            }
+            if (character.hp > 0) {
+                character.hp = enemy.attackCharacter(character);
+            }
+            if (character.hp <= 0) {
+                return console.log("The opponent killed you, RIP " + response.username)
+            }
+            if (enemy.hp <= 0) {
                 console.log("You killed the opponent, you can continue your journey!");
+            }
+            if (enemy.hp > 0 && character.hp > 0) {
+                await fight();
             }
         }
     }
+
+    return await fight();
 
 })();
