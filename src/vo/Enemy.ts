@@ -1,8 +1,8 @@
-import Character from "./Character";
+import {Fighter} from "../Fighter";
 
-export default class Enemy {
+export default class Enemy implements Fighter{
 
-    private _hp: number = 100;
+    private _hp: number = 100
 
     constructor() {
     }
@@ -15,12 +15,17 @@ export default class Enemy {
         this._hp = value;
     }
 
-    public attackCharacter(character: Character) {
+    public attack(character: Fighter) {
 
         let damage = Math.floor(Math.random() * (100 - 1) + 1) * 0.5;
-        let characterHpLeft = character.hp - damage;
+        let characterHpLeft = character.hp - this.takeDamage(damage);
         console.log('The enemy fight back! He inflicts ' + damage + ' damage to your character ... You have ' + characterHpLeft + ' HP remaining!')
 
         return characterHpLeft;
     }
+
+    takeDamage(damage: number): number {
+        return damage / 2;
+    }
+
 }

@@ -49,10 +49,10 @@ import Enemy from "./vo/Enemy";
 
         if (fightChoice.choice === true) {
             if (enemy.hp > 0) {
-                enemy.hp = character.attackEnemy(enemy);
+                enemy.hp = character.attack(enemy);
             }
             if (character.hp > 0) {
-                character.hp = enemy.attackCharacter(character);
+                character.hp = enemy.attack(character);
             }
             if (character.hp <= 0) {
                 return console.log("The opponent killed you, RIP " + response.username)
