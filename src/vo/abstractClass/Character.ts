@@ -1,15 +1,18 @@
-import {Fighter} from "../Fighter";
+import {Fighter} from "../interface/Fighter";
+import {Weapon} from "./Weapon";
 
-export default class Character implements Fighter {
+export abstract class Character implements Fighter {
 
     private _name: string
     private _sex: string
-    private _hp: number
+    private _hp: number = 100
+    private _ap: number = 20
+    private _agility: number = 20
 
-    constructor(name: string, sex: string, hp: number) {
-        this._name = name
-        this._sex = sex
-        this._hp = hp
+
+    protected constructor(name: string, sex: string) {
+        this._name = name;
+        this._sex = sex;
     }
 
     get name(): string {
@@ -36,6 +39,22 @@ export default class Character implements Fighter {
         this._hp = value;
     }
 
+    get ap(): number {
+        return this._ap;
+    }
+
+    set ap(value: number) {
+        this._ap = value;
+    }
+
+    get agility(): number {
+        return this._agility;
+    }
+
+    set agility(value: number) {
+        this._agility = value;
+    }
+
     public summary(): void {
 
         console.log(`
@@ -45,9 +64,9 @@ export default class Character implements Fighter {
 
     }
 
-    public attack(enemy: Fighter) {
+    public attack(enemy: Fighter, weapon: Weapon) {
 
-        let damage = Math.floor(Math.random() * (100 - 1) + 1);
+        let damage = weapon.damage + Math.floor(Math.random() * (100 - 1) + 1);
         let enemyHpLeft = enemy.hp - this.takeDamage(damage);
         console.log(this.name + ' inflicts ' + damage + ' damage to your enemy! He has ' + enemyHpLeft + ' HP remaining!')
 

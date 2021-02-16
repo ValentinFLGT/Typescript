@@ -1,4 +1,5 @@
-import {Fighter} from "../Fighter";
+import {Fighter} from "../interface/Fighter";
+import {Weapon} from "../abstractClass/Weapon";
 
 export default class Enemy implements Fighter{
 

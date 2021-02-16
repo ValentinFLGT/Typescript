@@ -1,7 +1,16 @@
+import {Warrior} from "./vo/character/Warrior";
+
 const prompts = require('prompts');
 
-import Character from "./vo/Character";
-import Enemy from "./vo/Enemy";
+import Enemy from "./vo/character/Enemy";
+import {Wizard} from "./vo/character/Wizard";
+import {Rogue} from "./vo/character/Rogue";
+import {Knife} from "./vo/weapon/Knife";
+import {Wand} from "./vo/weapon/Wand";
+import {Hammer} from "./vo/weapon/Hammer";
+import {Sword} from "./vo/weapon/Sword";
+import {Character} from "./vo/abstractClass/Character";
+import {Weapon} from "./vo/abstractClass/Weapon";
 
 (async () => {
 
@@ -17,10 +26,26 @@ import Enemy from "./vo/Enemy";
             message: 'What\'s your character\'s gender?'
         },
         {
-            type: 'number',
-            name: 'age',
-            message: 'How old is your character?'
-        }
+            type: 'select',
+            name: 'classType',
+            message: 'Choose your class!',
+            choices: [
+                {title: 'Warrior', value: Warrior},
+                {title: 'Wizard', value: Wizard},
+                {title: 'Rogue', value: Rogue},
+            ]
+        },
+        {
+            type: 'select',
+            name: 'weaponType',
+            message: 'Choose your weapon!',
+            choices: [
+                {title: 'Sword', value: Sword},
+                {title: 'Hammer', value: Hammer},
+                {title: 'Wand', value: Wand},
+                {title: 'Knife', value: Knife},
+            ]
+        },
     ];
 
     const fightOrRetreat = [
@@ -37,7 +62,8 @@ import Enemy from "./vo/Enemy";
 
     const response = await prompts(questions);
 
-    let character: Character = new Character(response.username, response.gender, 100);
+    let character: Character = new response.classType(response.username, response.gender);
+    let weapon: Weapon = new response.weaponType
     character.summary();
 
     console.log('Enemy\'s incoming!');
@@ -49,10 +75,10 @@ import Enemy from "./vo/Enemy";
 
         if (fightChoice.choice === true) {
             if (enemy.hp > 0) {
-                enemy.hp = character.attack(enemy);
+                enemy.hp = character.attack(enemy, weapon);
             }
             if (character.hp > 0) {
-                character.hp = enemy.attack(character);
+                character.hp = enemy.attack(character, weapon);
             }
             if (character.hp <= 0) {
                 return console.log("The opponent killed you, RIP " + response.username)
